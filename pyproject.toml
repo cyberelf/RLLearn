@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "rl-learn"
+version = "0.1.0"
+description = "Learning RL"
+authors = ["Darren <cyberelfd@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "snake" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+torch = "2.4.0"
+pygame = "^2.6.0"
+
+[tool.poetry.group.dev.dependencies]
+numpy = "^2.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
