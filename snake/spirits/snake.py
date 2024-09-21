@@ -4,9 +4,10 @@ from snake.spirits.consts import GREEN
 
 
 class Snake:
-    def __init__(self, position, direction, color=GREEN):
+    def __init__(self, position, direction, block_size=10, color=GREEN):
         self.positions = [position]  # 蛇的身体部分列表，包含各个方块的坐标
         self.direction = direction   # 当前方向
+        self.block_size = block_size # 蛇的方块大小
         self.color = color           # 蛇的颜色
         self.length = 1              # 初始长度
         self.bullets = []            # 存储蛇发射的子弹
@@ -76,3 +77,8 @@ class Snake:
         bullet = Bullet(self, position=head_pos, direction=self.direction)
         self.bullets.append(bullet)
         return bullet
+    
+    def is_off_screen(self, screen_width, screen_height):
+        x, y = self.positions[0]
+        return x < 0 or x > (screen_width - 10) or y < 0 or y > (screen_height - 10)
+    

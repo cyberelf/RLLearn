@@ -78,10 +78,19 @@ class Game:
                     if snake == self.player_snake:
                         self.score += 10
                     # 重新生成食物，避免与蛇和障碍物重叠
-                    food.respawn(self.screen_width, self.screen_height, obstacle_positions+food.position)
+                    food.respawn(self.screen_width, self.screen_height, obstacle_positions+[food.position])
 
-            # 设是否与障碍物碰撞
+            # 是否与障碍物碰撞
             if snake.check_collision(obstacle_positions):
+                if snake == self.player_snake:
+                    self.game_over()
+                else:
+                    self.snakes.remove(snake)
+                    self.score += 10
+                    continue
+            
+            # 检查是否撞到边界
+            if snake.is_off_screen(self.screen_width, self.screen_height):
                 if snake == self.player_snake:
                     self.game_over()
                 else:
@@ -139,6 +148,8 @@ class Game:
         for bullet in self.all_bullets[:]:
             if position == bullet.position:
                 return True
+        if position[0] < 0 or position[0] > self.screen_width or position[1] < 0 or position[1] > self.screen_height:
+            return True
         return False
 
     def draw(self):
@@ -161,7 +172,7 @@ class Game:
 
     def show_score(self):
         font = pygame.font.SysFont('arial', 24)
-        score_surface = font.render('得分 : ' + str(self.score), True, BLACK)
+        score_surface = font.render(f'Score: {self.score}', True, BLACK)
         self.screen.blit(score_surface, (10, 10))
 
     def game_over(self):

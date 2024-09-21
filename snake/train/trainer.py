@@ -35,6 +35,7 @@ class QTrainer:
         pred = self.model(state)
 
         target = pred.clone()
+        # 遍历batch
         for idx in range(len(done)):
             Q_new = reward[idx]
             if not done[idx]:
