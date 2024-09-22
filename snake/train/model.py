@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 
 class Linear_QNet(nn.Module):
-    def __init__(self, input_size=11, hidden_size=256, output_size=3):
+    def __init__(self, input_size=12, hidden_size=256, output_size=3):
         super(Linear_QNet, self).__init__()
         self.linear1 = nn.Linear(input_size, hidden_size)
         self.linear2 = nn.Linear(hidden_size, output_size)
@@ -27,7 +27,7 @@ class Linear_QNet(nn.Module):
     def load(cls, file_name='model.pth'):
         model_folder_path = './model'
         model_path = f'{model_folder_path}/{file_name}'
-        model = cls(11, 256, 3)
+        model = cls()
         model.load_state_dict(torch.load(model_path, weights_only=True))
         model.eval()
         return model

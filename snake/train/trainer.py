@@ -51,7 +51,7 @@ class QTrainer:
 class Agent:
     def __init__(self, trainer: QTrainer, memory_size = 100_000, batch_size = 1000):
         self.n_games = 0
-        self.epsilon = 0  # 探索率
+        self.epsilon = 1 # 探索率
         self.memory = deque(maxlen=memory_size)
         self.batch_size = batch_size
         self.trainer = trainer
@@ -74,11 +74,13 @@ class Agent:
     def train_short_memory(self, state, action, reward, next_state, done):
         self.trainer.train_step(state, action, reward, next_state, done)
     
-    def get_action(self, state, random_factor=0.02):
+    def get_action(self, state, random_factor=0.01):
         # 随机探索和模型预测之间的折中
-        self.epsilon = max(80 - self.n_games, 200 * random_factor)  # 随着游戏次数增加，epsilon 减小
+        self.trainer.model.train()
+        epsilon = max(random_factor, self.epsilon/(1+self.n_games))  # Decay epsilon
+        
         final_move = [0, 0, 0]
-        if random.randint(0, 200) < self.epsilon:
+        if random.random() < epsilon:
             move = random.randint(0, 2)
             final_move[move] = 1
         else:
@@ -93,6 +95,7 @@ class Agent:
         # 不包含随机的推理
         final_move = [0, 0, 0]
         state0 = torch.tensor(state, dtype=torch.float)
+        self.trainer.model.eval()
         prediction = self.trainer.model(state0)
         move = torch.argmax(prediction).item()
         final_move[move] = 1

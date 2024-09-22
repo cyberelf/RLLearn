@@ -142,6 +142,8 @@ class SnakeGameAI(Game):
         danger_left = collisions[dir_lefts.index(True)]
         danger_right = collisions[dir_rights.index(True)]
 
+        timingout = self.frame_noscore > self.frameout//2
+
         state = [
             # 危险的移动
             danger_straight,
@@ -158,7 +160,10 @@ class SnakeGameAI(Game):
             self.foods[0].position[0] < head[0],  # 食物在左边
             self.foods[0].position[0] > head[0],  # 食物在右边
             self.foods[0].position[1] < head[1],  # 食物在上方
-            self.foods[0].position[1] > head[1]   # 食物在下方
+            self.foods[0].position[1] > head[1],   # 食物在下方
+
+            # 超时预警
+            timingout,
         ]
         return np.array(state, dtype=int)
     
