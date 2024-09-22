@@ -14,6 +14,9 @@ python = "^3.11"
 pygame = "^2.6.0"
 tqdm = "^4.66.5"
 tensorboard = "^2.17.1"
+torch = "^2.4.1"
+torchvision = "^0.19.1"
+torchaudio = "^2.4.1"
 
 [tool.poetry.group.dev.dependencies]
 numpy = "^2.1.1"

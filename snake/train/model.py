@@ -28,6 +28,6 @@ class Linear_QNet(nn.Module):
         model_folder_path = './model'
         model_path = f'{model_folder_path}/{file_name}'
         model = cls(11, 256, 3)
-        model.load_state_dict(torch.load(model_path))
+        model.load_state_dict(torch.load(model_path, weights_only=True))
         model.eval()
         return model

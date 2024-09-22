@@ -25,11 +25,11 @@ class Game:
 
     def reset(self):
         # 初始化玩家蛇
-        self.player_snake = Snake(position=(100, 50), direction='RIGHT', color=GREEN)
+        self.player_snake = Snake(position=(100, 100), direction='RIGHT', color=GREEN)
         self.snakes = [self.player_snake]
         # 初始化 AI 蛇（如果需要多个蛇，可以添加更多 Snake 实例）
         if self.enable_ai_snakes:
-            self.ai_snake = Snake(position=(500, 50), direction='LEFT', color=BLUE)
+            self.ai_snake = Snake(position=(500, 100), direction='LEFT', color=BLUE)
             # 所有的蛇
             self.snakes = [self.player_snake, self.ai_snake]
         # 初始化食物列表
